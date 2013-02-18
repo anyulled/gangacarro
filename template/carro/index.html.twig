@@ -1,0 +1,25 @@
+{% extends "layout/base.html.twig" %}
+{%block contenido%}
+<div class="hero-unit">
+    <h1>Ultimos Carros publicados</h1>
+</div>
+<div class="row">
+    <h2>Seleccione una marca:</h2>
+    <div class="span12">
+        <ul class="unstyled inline">
+            {%for marca in marcas %}
+                <li><a href="{{ constant("URL_SISTEMA")}}marca/ver/{{ marca.nombre|lower }}">{{ marca.nombre|title }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+<div class="row">
+    <ul class="thumbnails">
+        {%for carro in carros%}
+            <li class="span3">
+                {% include 'carro/carro.html.twig' %}
+            </li>
+        {%endfor%}
+        </ul>
+</div>
+{%endblock%}

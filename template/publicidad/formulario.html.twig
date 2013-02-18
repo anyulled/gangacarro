@@ -1,0 +1,71 @@
+{% extends "layout/base.html.twig" %}
+{% block titulo  accion|title ~ ' Publicacion ' %}
+{% block head %}
+<script src="{{constant('URL_SISTEMA')}}/js/jquery-validate/jquery.validate.js"></script>
+<script src="{{constant('URL_SISTEMA')}}/js/jquery-validate/localization/messages_es.js"></script>
+<script src="{{constant('URL_SISTEMA')}}/js/index.js"></script>
+<script src="{{constant('URL_SISTEMA')}}/js/formulario.js"></script>
+{% endblock %}
+{% block encabezado %}
+<h1>{{ accion|title }} Publicaci&oacute;n</h1>
+{% endblock %}
+{% block contenido %}
+<form class="form form-horizontal" method="post">
+    <input type="hidden" name="id" value="{{ publicacion.id }}"/>
+    <fieldset>
+        <legend>Datos de la publicaci&oacute;n</legend>
+        <div class="control-group">
+            <label class="control-label" for="titulo">Titulo</label>
+            <div class="controls">
+                <input type="text" name="titulo" value="{{publicacion.titulo}}" class="required alphanumeric" {{ modolectura ? "disabled='true'" : " " }} />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="url_destino">URL destino</label>
+            <div class="controls">
+                <input type="text" name="url_destino" value="{{publicacion.url_destino}}" class="required url" {{ modolectura ? "disabled='true'" : " " }} />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="url_imagen">URL Imagen</label>
+            <div class="controls">
+                <input type="text" name="url_imagen" value="{{publicacion.url_imagen}}" class="required" {{ modolectura ? "disabled='true'" : " " }} />
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="status">Status</label>
+            <div class="controls">
+                <select name="status" {{ modolectura ? "disabled='true'" : " " }}>
+                    <option value="1">Activo</option>
+                    <option value="0">Inactivo</option>
+                </select>
+            </div>
+        </div>
+        <div class="control-group">
+            <label class="control-label" for="status">Tipo de publicaci&oacute;n</label>
+            <div class="controls">
+                <select name="tipo_publicacion" {{ modolectura ? "disabled='true'" : " " }}>
+                    {% for tipo in tipopublicaciones %}
+                    <option value="{{ tipo.id }}" {{tipo.id == publicacion.tipo_publicacion ? " selected='selected' " : ""}}>{{ tipo.nombre }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="form-actions">
+            {%if accion !="consultar" %}
+                <input type="submit" class="btn btn-primary" name="accion" value="{{ accion|title }}"/>
+            {% endif %}
+                <a href="{{ constant("URL_SISTEMA") }}publicidad" class="btn btn-info">Volver al listado</a>
+            </div>
+    </fieldset>
+</form>
+{% if accion != 'Registrar' %}
+<div class="well">
+    <p>Otras acciones</p>
+    <form name="publicacion" method="post" id="publicacion" action="{{ constant("URL_SISTEMA") }}publicidad">
+        <input type="hidden" name="id" value="{{publicacion.id}}"/>
+        <input type="submit" class="btn btn-danger" name="accion" value="Eliminar"/>
+    </form>                    
+</div>
+{% endif %}
+{% endblock %}

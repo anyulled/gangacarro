@@ -1,0 +1,68 @@
+<form class="form form-horizontal" action="{{constant("URL_SISTEMA")}}buscar">
+    <fieldset>
+        <legend>Datos de busqueda</legend>
+        <div class="row">
+            <div class="span4">
+                <div class="control-group">
+                    <label for="tipo" class="control-label">Tipo:</label>
+                    <div class="controls">
+                        <select id="tipo_vehiculo" name="tipo">
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="">Marca:</label>
+                    <div class="controls">
+                        <select id="marca" name="marca"></select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="">Modelo:</label>
+                    <div class="controls">
+                        <select id="modelo" name="modelo"></select>
+                    </div>
+                </div>
+            </div>
+            <div class="span5">
+                <div class="control-group">
+                    <label for="estado" class="control-label">Estado:</label>
+                    <div class="controls">
+                        <select id="estado" name="estado"></select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="preciomin">Precio:</label>
+                    <div class="controls">
+                        <div class="input-prepend">
+                            <span class="add-on">Min</span>
+                            <input type="text" name="preciomin" class="input-mini" placeholder="Ej 10000"/>
+                        </div>
+                        <div class="input-prepend">
+                            <span class="add-on">Max</span>
+                            <input type="text" name="preciomax" class="input-mini" placeholder="Ej 10000"/>
+                        </div>
+                            <span class="help-block hidden"><small>Escriba solo numeros, sin separador de miles ni decimales</small></span>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="aniomin">A&ntilde;o:</label>
+                    <div class="controls">
+                        <div class="input-prepend">
+                            <span class="add-on">Min</span>
+                            <input class="input-mini" type="text" name="aniomin" placeholder="{{ now|date("Y") }}" />
+                        </div>
+                        <div class="input-prepend">
+                            <span class="add-on">Max</span>
+                            <input class="input-mini" type="text" name="aniomax" placeholder="{{ now|date("Y") }}" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-actions">
+            <div class="pull-right">
+                <input type="submit" class="btn btn-primary" name="buscar" value="Buscar"/>
+            </div>
+        </div>
+    </fieldset>
+</form>

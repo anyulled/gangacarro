@@ -1,0 +1,21 @@
+{% extends "layout/base.html.twig"%}
+{% block titulo 'Usuario' %}
+{% block encabezado %}
+<h1>Panel de Usuario</h1>
+{% endblock %}
+{% block contenido %}
+<div class="row">
+    <div class="span11">
+        <div class="navbar">
+            <div class="navbar-inner">
+                <a class="brand" href="{{ constant("URL_SISTEMA")}}usuario">Admin</a>
+                <ul class="nav">
+                    <li><a href="{{ constant('URL_SISTEMA')}}usuario/listar">Usuarios</a></li>
+                    <li><a href="{{ constant('URL_SISTEMA')}}publicidad/listar">Publicidad</a></li>
+                    <li><a href="{{ constant('URL_SISTEMA')}}carro/listar">Carros</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

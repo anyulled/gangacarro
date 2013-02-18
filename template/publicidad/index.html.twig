@@ -1,0 +1,39 @@
+{% extends "layout/base.html.twig" %}
+{% block titulo 'Listado' %}
+{% block encabezado %}
+<h1>Listado de Publicaciones</h1>
+{% endblock %}
+{% block contenido %}
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>Titulo</th>
+            <th>Status</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {%for publicacion in publicaciones%}
+            <tr>
+                <td>{{publicacion.id}}</td>
+                <td>{{publicacion.titulo|title}}</td>
+                <td>{{publicacion.status==1?"Activo":"Inactivo"}}</td>
+                <td>
+                    <a class="btn btn-info" href="{{ constant("URL_SISTEMA") }}publicidad/ver/{{publicacion.id}}">Ver</a>
+                    <a class="btn btn-primary" href="{{ constant("URL_SISTEMA") }}publicidad/editar/{{publicacion.id}}">Editar</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">
+                    <p class="alert alert-info">No hay publicaciones registradas</p>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div class="well">
+    <a class="btn btn-info" href="nuevo">Crear nuevo registro</a>
+</div>
+{% endblock %}

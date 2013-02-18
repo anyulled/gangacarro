@@ -1,0 +1,46 @@
+{% extends "layout/base.html.twig" %}
+{% block titulo 'Formulario de contacto' %}
+{%block encabezado %}
+<h1>Formulario de Contacto</h1>
+{% endblock %}
+{%block contenido %}
+<div class="row">
+    <div class="span12">
+        <form class="form form-horizontal" method="post">
+            <fieldset>
+                <legend>Datos de contacto</legend>
+                <div class="control-group">
+                    <label for="nombre" class="control-label">Nombre y Apellidos:</label>
+                    <div class="controls">
+                        <input type="text" class="required" name="nombre" required="true" value="{{ form.nombre }}"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="telefono">Tel&eacute;fono:</label>
+                    <div class="controls">
+                        <input type="text" name="telefono" placeholder="ej 0212-1234567" value="{{form.telefono}}"/>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label" for="email">Email:</label>
+                    <div class="controls">
+                        <input type="email" class="email required" name="email" required="true" value="{{ form.email }}"/>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>Mensaje</legend>
+                <div class="control-group">
+                    <label for="mensaje" class="control-label">Mensaje</label>
+                    <div class="controls">
+                        <textarea name="mensaje" class="input-large" required="true">{{ form.mensaje }}</textarea>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="form-actions">
+                <input type="submit" name="enviar" value="Enviar" class="btn btn-primary"/>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends "layout/base.html.twig" %}
+{% block titulo 'Buscar Carro' %}
+{# Head #}
+{% block head %}
+<script src="{{constant("URL_SISTEMA")}}js/index.js"></script>
+<script>
+$(document).ready(function(){
+    $("input[type='submit']").click(function(){
+        form = $(this).parents("form:eq(0)");
+        $("input, select", form).each(function(){
+            if($(this).val()==""){
+                $(this).attr("disabled",true);
+            }
+        });
+    });
+});
+</script>
+{% endblock %}
+{# Encabezado #}
+{% block encabezado %}
+<h1>Buscar Carros</h1>
+{% endblock %}
+{# Contenido #}
+{% block contenido %}
+<div class="row-fluid">
+    <div class="span12">
+    {% include 'layout/buscar.html.twig' %}
+    </div>
+</div>
+{% if resultados is defined %}
+<div class="row">
+    <h2>Resultados</h2>
+    <div class="well well-small">
+        <div class="btn-toolbar ">
+            <div class="btn-group">
+                <span class="btn btn-info disabled">Ordenar Resultados por:</span>
+            </div>
+            <div class="btn-group">
+                <span class="btn btn-inverse disabled">Precio</span>
+                <a href="{{url_sortable("precio","asc")|raw }}" class="btn btn-inverse"><i class="icon-chevron-up icon-white"></i></a>
+                <a href="{{url_sortable("precio","desc")|raw }}" class="btn btn-inverse"><i class="icon-chevron-down icon-white"></i></a>
+            </div>
+            <div class="btn-group">
+                <span class="btn btn-inverse disabled">A&ntilde;o</span>
+                <a href="{{url_sortable("anio","asc")|raw }}" class="btn btn-inverse"><i class="icon-chevron-up icon-white"></i></a>
+                <a href="{{url_sortable("anio","desc")|raw }}" class="btn btn-inverse"><i class="icon-chevron-down icon-white"></i></a>
+            </div>
+            <div class="btn-group">
+                <span class="btn btn-inverse disabled">Fecha de Publicaci&oacute;n</span>
+                <a href="{{url_sortable("fecha_creacion","asc")|raw }}" class="btn btn-inverse"><i class="icon-chevron-up icon-white"></i></a>
+                <a href="{{url_sortable("fecha_creacion","desc")|raw }}" class="btn btn-inverse"><i class="icon-chevron-down icon-white"></i></a>
+            </div>
+        </div>
+    </div>
+    <ul class="thumbnails">
+        {% for carro in resultados %}
+            <li class="span3">
+                {% include 'carro/carro.html.twig' %}
+            </li>
+        {% endfor %}
+        </ul>
+</div>
+<div class="row-fluid">
+    {{ paginado|raw }}
+</div>
+{% endif %}
+{% endblock %}

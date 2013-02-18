@@ -1,0 +1,9 @@
+<div class="thumbnail">
+    <a href="{{ constant("URL_SISTEMA") ~ "carro/ver/" ~ carro.id }}">
+        <img src="{{ constant("URL_SISTEMA") ~ "img/carros/" ~ carro.url_imagen }}"  alt="">
+    </a>
+    <h4>{{ carro.marca|title ~ " " ~ carro.modelo|title ~" "~ carro.anio}}</h4>
+    <p> Transmisi&oacute;n: {{ carro.transmision|capitalize }}</p>
+    <p>Precio: {{ carro.precio|number_format(2,",",".")}} Bsf.</p>
+    <a href="{{ constant("URL_SISTEMA") ~ "carro/ver/" ~ carro.id }}" class="btn btn-primary btn-small">Ver</a>
+</div>

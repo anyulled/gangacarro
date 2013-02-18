@@ -1,0 +1,41 @@
+{% extends "layout/base.html.twig" %}
+{%set titulo = marca.nombre|title ~ " " ~ modelo.nombre|title%}
+{% block titulo 'Listado de Marcas ' ~ titulo %}
+{% block encabezado %}
+<h1>Listado de Marcas <small>{{ titulo }}</small></h1>
+{% endblock %}
+{% block contenido %}
+<div class="hero-unit">
+    <h1>{{marca.nombre|title}} {{ modelo.nombre|title }}</h1>
+</div>
+<div class="row">
+    {% if modelos is defined and modelos|length > 0%}
+    <div class="span12">
+        <h2>Modelos</h2>
+        <ul id="modelos" class="unstyled inline">
+        {% for modelo in modelos %}
+                <li class="pull-left"><a href="{{constant("URL_SISTEMA")}}marca/ver/{{marca.nombre|lower}}/{{modelo.nombre|replace(" ","-")|lower}}">{{ modelo.nombre|title }}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+</div>
+<div class="row">
+    <div class="span12">
+    <h3>Carros Registrados</h3>
+    {% if carros is defined and carros|length > 0 %}
+    <div class="thumbnails">
+    {% for carro in carros %}
+        <div class="span4">
+            {% include 'carro/carro.html.twig' %}
+        </div>
+    {% endfor %}
+    </div>
+    {% else %}
+        <div class="span11">
+            <p class="alert alert-info">No hay carros registrados para esta marca</p>
+        </div>
+    {% endif %}
+    </div>
+</div>
+{% endblock %}

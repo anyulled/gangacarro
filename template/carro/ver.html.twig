@@ -1,0 +1,154 @@
+{% extends "layout/base.html.twig" %}
+{%set titulo = carro.marca|title ~ " " ~ carro.modelo|title ~ " " ~ carro.anio%}
+{%block titulo titulo %}
+{% block head %}
+<script>
+$(document).ready(function(){
+    $('.carousel').carousel();
+    /*$(".nav-tabs a").click(function(){
+        $(this).tab('show');
+    });*/
+});
+</script>
+{% endblock %}
+{%block encabezado %}
+<h1>{{ titulo }} <small>Precio {{ carro.precio|number_format(2,",",".") }} Bsf.</small></h1>
+{%endblock %}
+{% block contenido %}
+<div class="row-fluid clearfix">
+    <div class="span5">
+    <div id="myCarousel" class="carousel slide">
+      <!-- Carousel items -->
+      <div class="carousel-inner">
+        {%for imagen in imagenes %}
+        <div class="item">
+            <img src="{{ constant("URL_SISTEMA")}}img/carros/{{imagen.url_imagen}}">
+        </div>
+        {% endfor %}
+      </div>
+      <!-- Carousel nav -->
+      <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+      <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
+    </div>
+    </div>
+    <div class="span6">
+        <div class="tabbable tabs-right">
+        <ul class="nav nav-tabs">
+            <li class="active"><a href="#carro" data-toggle="tab">Carro</a></li>
+            <li><a href="#imagenes" data-toggle="tab">Im&aacute;genes</a></li>
+            <li><a href="#usuario" data-toggle="tab">Usuario</a></li>
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="carro">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th>Marca</th>
+                            <th>Modelo</th>
+                            <th>A&ntilde;o</th>
+                            <th>version</th>
+                        </tr>
+                        <tr>
+                            <td>{{carro.marca|title}}</td>
+                            <td>{{carro.modelo|title}}</td>
+                            <td>{{carro.anio}}</td>
+                            <td>{{carro.version|title}}</td>
+                        </tr>
+                        <tr>
+                            <th>motor</th>
+                            <th>cilindros</th>
+                            <th>direcci&oacute;n</th>
+                            <th>traccion</th>
+                        </tr>
+                        <tr>
+                            <td>{{carro.motor}}</td>
+                            <td>{{carro.cilindros}}</td>
+                            <td>{{carro.direccion}}</td>
+                            <td>{{carro.traccion}}</td>
+                        </tr>
+                        <tr>
+                            <th>Tipo</th>
+                            <th>Color</th>
+                            <th>transmisi&oacute;n</th>
+                            <th>km (aprox.)</th>
+                        </tr>
+                        <tr>
+                            <td>{{carro.tipo}}</td>
+                            <td>{{carro.color}}</td>
+                            <td>{{carro.transmision}}</td>
+                            <td>{{carro.km|number_format(0,",",".")}}</td>
+                        </tr>
+                        <tr>
+                            <th colspan="2">precio</th>
+                            <th colspan="2">negociable</th>
+                        </tr>
+                        <tr>
+                            <td colspan="2"><span class="pull-right">{{carro.precio|number_format(2,",",".")}} Bsf.</span></td>
+                            <td colspan="2">{{ carro.negociable == 1 ?" Si " : " No " }}</td>
+                        </tr>
+                        <tr>
+                            <th colspan="4">Accesorios</th>
+                        </tr>
+                        <tr>
+                            <td colspan="4">
+                                <ul class="unstyled inline">
+                                    <li>Tapizado: {{carro.tapizado==1?"<span class='label label-success'>&radic;</span>":"<span class='label label-important'>&times;</span>"}}</li>
+                                    <li>Air Bag: {{carro.airbag==1?"<span class='label label-success'>&radic;</span>":"<span class='label label-important'>&times;</span>"}}</li>
+                                    <li>Aire Acondicionado: {{carro.aire_acondicionado==1?"<span class='label label-success'>&radic;</span>":"<span class='label label-important'>&times;</span>"}}</li>
+                                    <li>Vidrios Ahumados: {{carro.vidrios_ahumados==1?"<span class='label label-success'>&radic;</span>":"<span class='label label-important'>&times;</span>"}}</li>
+                                    <li>Frenos ABS: {{carro.frenos_abs==1?"<span class='label label-success'>&radic;</span>":"<span class='label label-important'>&times;</span>"}}</li>
+                                    <li>Blindado: {{carro.blindado==1?"<span class='label label-success'>&radic;</span>":"<span class='label label-important'>&times;</span>"}}</li>
+                                    <li>Radio Stereo: {{carro.estereo==1?"<span class='label label-success'>&radic;</span>":"<span class='label label-important'>&times;</span>"}}</li>
+                                </ul>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th colspan="4">Comentarios</th>
+                        </tr>
+                        <tr>
+                            <td colspan="4">{{carro.comentario|capitalize}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="tab-pane" id="imagenes">
+                <ul class="thumbnails">
+                {%for imagen in imagenes %}
+                <li class="{{loop.first?"span5":loop.index%2?"span2":"span2"}}">
+                    <a href="#" class="thumbnail" onclick="javascript:$('.carousel').carousel({{loop.index0}});">
+                      <img data-src="holder.js/360x270" style="height: " alt="{{imagen.titulo}}" src="{{ constant("URL_SISTEMA")}}img/carros/{{imagen.url_imagen}}">
+                  </a>
+                </li>
+                {% else %}
+                <li>No hay imagenes publicadas</li>
+                {% endfor %}
+                </ul>
+            </div>
+            <div class="tab-pane" id="usuario">
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th>Nombre</th>
+                            <td>{{ vendedor.nombre|title ~ " " ~ vendedor.apellido|title}}</td>
+                        </tr>
+                        <tr>
+                            <th>Tel&eacute;fonos</th>
+                            <td>{{ vendedor.telefono_1 }} - {{ vendedor.telefono_2 }}</td>
+                        </tr>
+                        <tr>
+                            <th>Direcci&oacute;n</th>
+                            <td>
+                                <p>
+                                {{vendedor.direccion}}
+                                    </p>
+                                    <p>{{ vendedor.ciudad|title }}, estado {{ vendedor.estado|title }} </p>
+                                </td>
+                            </tr>    
+                        </tbody>
+                    </table>
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

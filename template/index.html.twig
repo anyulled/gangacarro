@@ -1,0 +1,8 @@
+{% extends "layout/base.html.twig"%}
+{%block titulo 'Inicio' %}
+{% block head %}
+<script src="{{constant("URL_SISTEMA")}}js/index.js"></script>
+{% endblock %}
+{% block contenido %}
+{% include 'layout/buscar.html.twig' %}
+{% endblock %}

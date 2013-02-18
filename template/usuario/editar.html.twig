@@ -1,0 +1,150 @@
+{% extends "layout/base.html.twig"%}
+{% block head %}
+<script type="text/javascript" src="{{ constant("URL_SISTEMA")~"js/formulario.js" }}"></script>
+<script type="text/javascript" src="{{ constant("URL_SISTEMA")~"js/jquery-validate/jquery.validate.min.js" }}"></script>
+<script type="text/javascript" src="{{ constant("URL_SISTEMA")~"js/jquery-validate/localization/messages_es.js" }}"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $("#usuario").validate({
+            {% if get.accion == "crear"%}
+            rules: {
+                password: "required",
+                repetir: {
+                    equalTo: "#password"
+                }
+            }
+            {%endif %}
+        });
+    });
+    </script>
+{% endblock %}
+{%block titulo get.accion|title ~ ' Usuario' %}
+
+{%block contenido%}
+    <div class="well">
+        <form id="usuario" name="usuario" class="form-horizontal" method="post">
+            <input type="hidden" value="{{dato.id}}" name="id"/>
+            <legend>Datos de Usuario</legend>
+            <div class="row">
+                <div class="span5">
+                    <div class="control-group">
+                <label class="control-label" for="nombre">Nombre</label>
+                <div class="controls">
+                    <input class="required alphanumeric" type="text" name="nombre" value="{{dato.nombre}}" {{ modolectura ? "disabled='true'" : " " }}/>
+                </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="apellido">apellido</label>
+                        <div class="controls">
+                            <input class="required alphanumeric" type="text" name="apellido" value="{{dato.apellido}}" {{ modolectura ? "disabled='true'" : " " }}/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="login">Login</label>
+                        <div class="controls">
+                            <input class="required alphanumeric" type="text" name="login" value="{{ dato.login }}" {{ modolectura ? "disabled='true'" : " " }}/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="email">email</label>
+                        <div class="controls">
+                            <input class="required email" type="text" name="email" value="{{ dato.email }}" {{ modolectura ? "disabled='true'" : " " }}/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="password">Password</label>
+                        <div class="controls">
+                            <input id="password" type="password" class="{{ get.accion=="crear"?"required":""}}" name="password" value="{{ dato.password }}" {{ modolectura ? "disabled='true'" : " " }}/>
+                        </div>
+                    </div>
+                    {% if get.accion =="crear" %}
+                    <div class="control-group">
+                        <label class="control-label" for="repetir">Repita Password</label>
+                        <div class="controls">
+                            <input id="repetir" class="required" type="password" name="repetir" value="" {{ modolectura ? "disabled='true'" : " " }}/>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="control-group">
+                        <label class="control-label" for="cedula_rif">cedula/rif</label>
+                        <div class="controls">
+                            <input class="digits" type="text" name="cedula_rif" value="{{ dato.cedula_rif }}" {{ modolectura ? "disabled='true'" : " " }}/>
+                        </div>
+                    </div>
+                </div>
+                <div class="span5">
+                    <div class="control-group">
+                <label class="control-label" for="telefono_1">Tel&eacute;fono</label>
+                <div class="controls">
+                    <input class="alphanumeric" type="text" name="telefono_1" value="{{ dato.telefono_1 }}" {{ modolectura ? "disabled='true'" : " " }}/>
+                </div>
+            </div>
+                    <div class="control-group">
+                <label class="control-label" for="telefono_2">Tel&eacute;fono 2</label>
+                <div class="controls">
+                    <input class="alphanumeric" type="text" name="telefono_2" value="{{ dato.telefono_2 }}" {{ modolectura ? "disabled='true'" : " " }}/>
+                </div>
+            </div>
+                    <div class="control-group">
+                <label class="control-label">estado</label>
+                <div class="controls">
+                    <select class="required" name="estado_id" {{ modolectura ? "disabled='true'" : " " }}>
+                    {% for estado in estados %}
+                        <option value="{{estado.id}}" {{ estado.id == dato.estado_id ? " selected='selected' ":""}}>{{ estado.nombre|capitalize }}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+            </div>
+                    <div class="control-group">
+                <label class="control-label">ciudad</label>
+                <div class="controls">
+                    <select class="required" name="ciudad_id" {{ modolectura ? "disabled='true'" : " " }}>
+                    {% for ciudad in ciudades %}
+                        <option value="{{ciudad.id}}" {{ ciudad.id == dato.ciudad_id ? " selected='selected' ":""}}>{{ ciudad.nombre|capitalize }}</option>
+                    {%else%}
+                        <option value="">Seleccione un estado</option>
+                    {% endfor %}
+                    </select>
+                </div>
+            </div>
+            {% if usuario.tipo_usuario == 1 %}
+                <div class="control-group">
+                    <label class="control-label">Rol</label>
+                    <div class="controls">
+                        <select class="required" name="tipo_usuario" {{ modolectura ? "disabled='true'" : " " }}>
+                            {% for rol in roles %}
+                            <option value="{{rol.id}}" {{ rol.id == dato.tipo_usuario ? " selected='selected' ":""}}>{{ rol.nombre|capitalize }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                <label class="control-label">estatus</label>
+                <div class="controls">
+                    <select class="required" name="status" {{ modolectura ? "disabled='true'" : " " }}>
+                        <option value="0" {{ 0 == dato.status ? " selected='selected' ":""}}>Inactivo</option>
+                        <option value="1" {{ 1 == dato.status ? " selected='selected' ":""}}>Activo</option>
+                    </select>
+                </div>
+            </div>
+            {%endif%}
+                </div>
+            </div>
+            <div class="form-actions">
+            {% if get.accion =="editar" %}
+                <input type="submit" name="accion" value="Editar" class="btn btn-primary"/>
+            {% endif %}
+            {% if get.accion =="crear" %}
+                <input type="submit" name="accion" value="Crear" class="btn btn-primary"/>
+            {% endif %}
+            {% if get.accion == "ver"%}
+                <a class="btn btn-info" href="{{constant('URL_SISTEMA') ~ "usuario/editar/" ~ dato.id }}">Editar</a>
+            {%endif%}
+            {% if get.accion != "crear" %}
+                <input type="submit" class="btn btn-danger" name="accion" value="Eliminar"/>
+            {% endif %}
+                <a href="{{constant('URL_SISTEMA')}}usuario/listar" class="btn">Atras</a>
+            </div>
+        </form>
+    </div>
+{%endblock%}

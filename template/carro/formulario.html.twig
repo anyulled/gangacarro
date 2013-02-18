@@ -1,0 +1,359 @@
+{% extends "layout/base.html.twig" %}
+
+{# TITULO #}
+{% block titulo accion|title ~ ' Auto' %}
+
+{# HEAD #}
+{% block head %}
+<script src="{{constant('URL_SISTEMA')}}js/jquery-validate/jquery.validate.js"></script>
+<script src="{{constant('URL_SISTEMA')}}js/jquery-validate/localization/messages_es.js"></script>
+<script src="{{constant('URL_SISTEMA')}}js/index.js"></script>
+<script src="{{constant('URL_SISTEMA')}}js/formulario.js"></script>
+<script>
+            $(document).ready(function(){
+                $("#registrar").validate({
+                    rules: {
+                        precio:{
+                            digits:true,
+                            min:1000},
+                        placa:{
+                            alphanumeric:true
+                        },
+                       foto1: {
+                            required: true,
+                            accept: "jpg|png"
+                        },
+                       foto2: {
+                            accept: "jpg|png"
+                        },
+                       foto3: {
+                            accept: "jpg|png"
+                        },
+                       foto4: {
+                            accept: "jpg|png"
+                        },
+                       foto5: {
+                            accept: "jpg|png"},
+                        caracteristicas:{
+                            maxlength: 500
+                        }
+                    },
+                    messages:{
+                        precio:{digits:"Por favor, no incluya puntos ni comas en el precio"}
+                    },
+                    submitHandler:function(){
+                        console.log("validando");
+                        if($("#registrar").valid()){
+                            /*mensaje = "<div class='info'><img src='../images/info.png' /><p>Cargando, por favor espere</p></div>";
+                            $.fancybox(mensaje,
+                            {
+                                'autoDimensions'    : false,
+                                'modal'                    :true,
+                                'width'                     : 350,
+                                'height'                   : 'auto',
+                                'transitionIn'           : 'none',
+                                'transitionOut'        : 'none'
+                            }
+                        );*/
+                            registrar.submit();
+                        }
+                    }
+                });
+            });
+    </script>
+{% endblock %}
+    
+{# CONTENIDO #}
+{% block contenido %}
+    <form name="registrar" id="registrar" action="" class="form form-horizontal" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="{{ registro.id }}"/>
+        <fieldset>
+            <legend>Datos del Vehículo</legend>
+            <div class="row">
+                <div class="span5">
+                    <div class="control-group">
+                        <label class="control-label" for="tipo_vehiculo_id">Tipo de vehículo <sup>*</sup> </label>
+                        <div class="controls">
+                            <select name="tipo_vehiculo_id" class="required">
+                                <option value="">--</option>
+                                {% for tipo in tipo_vehiculos %}
+                                <option value="{{ tipo.id }}" {{registro.tipo_vehiculo == tipo.id?" selected='selected' ":"" }}>{{ tipo.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="marca_id">Marca<sup>*</sup> </label>
+                        <div class="controls">
+                            <select id="marca" name="marca_id" id="marcas" class="required">
+                                {% for marca in marcas %}
+                                    <option value="{{marca.id}}" {{registro.marca_id == marca.id?" selected='selected' ":"" }}> {{marca.nombre|title}} </option>
+                                {% else %}
+                                    <option> -- </option>
+                                {% endfor %}
+                                </select>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="modelo_id">Modelo <sup>*</sup></label>
+                        <div class="controls">
+                            <select id="modelo" name="modelo_id" id="modelos" class="required">
+                                {% for modelo in modelos %}
+                                <option value="{{modelo.id}}" {{registro.modelo_id == modelo.id?" selected='selected' ":"" }}> {{ modelo.nombre}} </option>
+                                {% else %}
+                                    <option> -- </option>
+                                {% endfor %}                                
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="anio">Año<sup>*</sup> </label>
+                        <div class="controls">
+                            <select name="anio" class="required">
+                                <option value="" class="number"> -- </option>
+                                {% for i in "now"|date('Y')..1900 %}
+                                <option {{registro.anio == i ? " selected='selected' " : "" }}>{{ i }} </option>
+                                {% endfor %}                                
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="span5">
+                    <div class="control-group">
+                        <label class="control-label" for="km">Recorrido (Km) </label>
+                        <div class="controls">
+                            <input type="text" name="km" class="number" value="{{ registro.km }}"/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="version">Versión</label>
+                        <div class="controls">
+                            <input type="text" name="version" value="{{ registro.version }}"/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="color_id">Color<sup>*</sup></label>
+                        <div class="controls">
+                            <select name="color_id" class="required">
+                                <option value="null"> -- </option>
+                                {% for color in colores_vehiculo %}
+                                <option value="{{ color.id }}" {{registro.color_id == color.id?" selected='selected' ":"" }}>{{ color.nombre }} </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="placa">Placa </label>
+                        <div class="controls">
+                            <input type="text" name="placa" value="{{ registro.placa }}"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Motor</legend>
+            <div class="row">
+                <div class="span5">
+                    <div class="control-group">
+                        <label class="control-label" for="motor">Motor <sup>*</sup> </label>
+                        <div class="controls">
+                            <input type="text" name="motor"  class="required" value="{{ registro.motor }}"/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="transmision_vehiculo_id">Transmisión <sup>*</sup> </label>
+                        <div class="controls">
+                            <select name="transmision_vehiculo_id"  class="required">
+                                <option value=""> -- </option>
+                                {% for transmision in transmision_vehiculo %}
+                                <option value="{{ transmision.id }}" {{registro.transmision_vehiculo_id == transmision.id?" selected='selected' ":"" }}>{{ transmision.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="span5">
+                    <div class="control-group">
+                        <label class="control-label" for="cilindros">N° Cilindros<sup>*</sup></label>
+                        <div class="controls">
+                            <input type="text" name="cilindros" class="required number" value="{{registro.cilindros }}"/>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="traccion_vehiculo_id">Tracción<sup>*</sup></label>
+                        <div class="controls">
+                            <select name="traccion_vehiculo_id" class="required">
+                                <option value="">--</option>
+                                {% for traccion in traccion_vehiculo %}
+                                    <option value="{{ traccion.id }}" {{registro.traccion_vehiculo_id == traccion.id?" selected='selected' ":"" }}>{{ traccion.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Accesorios</legend>
+            <div class="row">
+                <div class="span5">
+                    <div class="control-group">
+                        <label class="control-label" for="vidrios_ahumados">Vidrios<sup>*</sup></label>
+                        <div class="controls">
+                            <select name="vidrios_ahumados" class="required">
+                                <option value="null">-- Seleccione</option>
+                                <option value="0" {{registro.vidrios_ahumados == 0 ?" selected='selected' ":"" }}>Ahumados</option>
+                                <option value="1" {{registro.vidrios_ahumados == 1 ?" selected='selected' ":"" }}>Normales</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="tapizado">Tapizado<sup>*</sup></label>
+                        <div class="controls">
+                            <select name="tapizado" class="required">
+                                <option value="null">-- Seleccione</option>
+                                <option value="0" {{registro.tapizado == 0 ?" selected='selected' ":"" }}>Tela</option>
+                                <option value="1" {{registro.tapizado == 1 ?" selected='selected' ":"" }}>Cuero</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="airbag">Airbag<sup>*</sup></label>
+                        <div class="controls">
+                            <select name="airbag" class="required">
+                                <option value="">-- Seleccione</option>
+                                <option value="1" {{registro.airbag == 1 ?" selected='selected' ":"" }}>SI</option>
+                                <option value="0" {{registro.airbag == 0 ?" selected='selected' ":"" }}>NO</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="frenos_abs">Frenos ABS<sup>*</sup></label>
+                        <div class="controls">
+                            <select name="frenos_abs" class="required">
+                                <option value="">-- Seleccione</option>
+                                <option value="0" {{registro.frenos_abs == 0 ?" selected='selected' ":"" }}>NO</option>
+                                <option value="1" {{registro.frenos_abs == 1 ?" selected='selected' ":"" }}>SI</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="span5">
+                    <div class="control-group">
+                        <label class="control-label" for="direccion_vehiculo_id">Dirección <sup>*</sup> </label>
+                        <div class="controls">
+                        <select name="direccion_vehiculo_id" class="required">
+                            <option value="">--</option>
+                            {% for direccion in direccion_vehiculo %}
+                            <option value="{{ direccion.id }}" {{ registro.direccion_vehiculo_id==direccion.id ? " selected='selected' " : "" }}>{{ direccion.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="aire_acondicionado">Aire Acondicionado<sup>*</sup></label>
+                        <div class="controls">
+                            <select name="aire_acondicionado" class="required">
+                                <option value="">-- Seleccione</option>
+                                <option value="1" {{registro.aire_acondicionado == 1 ?" selected='selected' ":"" }}>SI</option>
+                                <option value="0" {{registro.aire_acondicionado == 0 ?" selected='selected' ":"" }}>NO</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="estereo">Estereo <sup>*</sup></label>
+                        <div class="controls">
+                            <select name="estereo" class="required">
+                                <option value="">-- Seleccione</option>
+                                <option value="1" {{registro.estereo == 1 ?" selected='selected' ":"" }}>SI</option>
+                                <option value="0" {{registro.estereo == 0 ?" selected='selected' ":"" }}>NO</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="blindado">Blindado<sup>*</sup></label>
+                        <div class="controls">
+                            <select name="blindado" class="required">
+                                <option value="">-- Seleccione</option>
+                                <option value="1" {{registro.blindado == 1 ?" selected='selected' ":"" }}>SI</option>
+                                <option value="0" {{registro.blindado == 0 ?" selected='selected' ":"" }}>NO</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Otras caracteristicas</legend>
+            <div class="control-group">
+                <label class="control-label" for="comentario">Características</label>
+                <div class="controls">
+                    <textarea class="input-xxlarge" cols="3" rows="3" name="comentario">{{ registro.comentario}}</textarea>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Precio</legend>
+            <div class="row">
+                <div class="span5">
+                    <div class="control-group">
+                        <label class="control-label" for="precio">Precio<sup>*</sup> </label>
+                        <div class="controls">
+                            <input type="text" name="precio" class="required number" value="{{ registro.precio }}"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="span5">
+                    <div class="control-group">
+                        <label class="control-label" for="negociable">Negociable <sup>*</sup> </label>
+                        <div class="controls">
+                            <select name="negociable" class="required">
+                                <option value="">-- Seleccione</option>
+                                <option value="1" {{registro.negociable == 1 ?" selected='selected' ":"" }}>SI</option>
+                                <option value="0" {{registro.negociable == 0 ?" selected='selected' ":"" }}>NO</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Fotos</legend>
+            <div class="control-group">
+                <label class="control-label" for="foto1">Foto Principal <sup>*</sup> </label>
+                <div class="controls">
+                    <input type="file" name="foto1" class="required"/>
+                </div>
+                <label class="control-label" for="foto2">Foto </label>
+                <div class="controls">
+                    <input type="file" name="foto2"/>
+                </div>
+                <label class="control-label" for="foto3">Foto </label>
+                <div class="controls">
+                    <input type="file" name="foto3"/>
+                </div>
+                <label class="control-label" for="foto4">Foto </label>
+                <div class="controls">
+                    <input type="file" name="foto4"/>
+                </div>
+                <label class="control-label" for="foto5">Foto </label>
+                <div class="controls">
+                    <input type="file" name="foto5"/>
+                </div>
+            </div>
+        </fieldset>
+        <fieldset>
+            <legend>Acción</legend>
+            <div class="form-actions">
+                <input class="btn" type="reset" name="borrar" value="Resetear"/>
+                {% if accion != "ver" %}
+                <input class="btn btn-primary" type="submit" name="accion" value="{{accion|title}}"/>
+                {% endif %}
+            </div>
+        </fieldset>
+    </form>
+    <div class="well">
+        <a class="btn btn-info" href="../usuarios">Volver al menú</a>
+    </div>
+{% endblock %} 

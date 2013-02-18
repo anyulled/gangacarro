@@ -1,0 +1,13 @@
+ErrorDocument 404 /404.html
+
+Options +FollowSymLinks
+RewriteEngine on
+
+# marca y modelo
+# marca/ver/ford
+Rewriterule ^([A-Za-z\-]+)/([A-Za-z\-]+)/([A-Za-z\-]+)$ $1/index.php?accion=$2&marca=$3 [L]
+# marca/verd/ford/fiesta
+Rewriterule ^([A-Za-z\-]+)/([A-Za-z\-]+)/([A-Za-z\-]+)/([A-Za-z0-9\-\.]+)$ $1/index.php?accion=$2&marca=$3&modelo=$4 [L]
+
+Rewriterule ^([A-Za-z\-]+)/([A-Za-z\-]+)$ $1/index.php?accion=$2 [L]
+Rewriterule ^([A-Za-z\-]+)/([A-Za-z\-]+)/([0-9]{1,5})$ $1/index.php?accion=$2&id=$3 [L]

@@ -1,0 +1,30 @@
+{% extends "layout/base.html.twig"%}
+{%block titulo 'iniciar sesion' %}
+{%block encabezado %}
+{%endblock%}
+{%block contenido %}
+<div class="row">
+    <div class="span3 offset5">
+        <form class="form" method="post">
+            <fieldset>
+                <legend>Inicie Ses&oacute;n</legend>
+                <div class="control-group">
+                    <label class="control-label">Login</label>
+                    <div class="controls">
+                        <input placeholder="Nombre de Usuario" type="text" name="login" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Password</label>
+                    <div class="controls">
+                        <input placeholder="Contrase&ntilde;a" type="password" name="password"/>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <input class="btn btn-primary" type="submit" name="submit" value="iniciar sesion"/>
+                </div>
+            </fieldset>
+        </form>
+    </div>
+</div>
+{% endblock %}

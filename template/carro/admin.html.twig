@@ -1,0 +1,51 @@
+{% extends "layout/base.html.twig" %}
+{% block titulo 'Panel de Admin' %}
+{% block encabezado %}
+<h1>Panel de Administración <small>Autos</small></h1>
+{% endblock %}
+{% block contenido %}
+<div class="row">
+    <div class="span12">
+        <table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>Marca</th>
+            <th>Modelo</th>
+            <th>A&ntilde;o</th>
+            <th>Precio</th>
+            <th>Status</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for carro in registros %}
+        <tr>
+            <td>{{ carro.id}}</td>
+            <td>{{ carro.marca|title }}</td>
+            <td>{{ carro.modelo|title }}</td>
+            <td>{{ carro.anio}}</td>
+            <td><span class="pull-right">{{ carro.precio|number_format(2,",",".") }} Bsf.</span></td>
+            <td>{{ carro.status==1?"Activo":"Inactivo" }}</td>
+            <td>
+                <a href="{{ constant("URL_SISTEMA") }}carro/ver/{{ carro.id }}" class="btn btn-info">Ver</a>
+                <a href="{{ constant("URL_SISTEMA") }}carro/editar/{{ carro.id }}" class="btn btn-primary">Editar</a>
+            </td>
+        </tr>
+        {% else %}
+        <tr>
+            <td colspan="6">
+                <span class="label label-info">No hay registros que mostrar</span>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+    </div>
+</div>
+<div class="row">
+    <div class="span12">
+    {{paginado|raw}}
+    </div>
+</div>
+{% endblock %}
