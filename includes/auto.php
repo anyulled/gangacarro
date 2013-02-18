@@ -13,7 +13,7 @@ class Auto extends db implements crud {
             , color.nombre color
             , traccion_vehiculo.nombre traccion
             , transmision_vehiculo.nombre transmision
-            , marca.nombre marca
+            , marca.nombre marca, marca.id marca_id
             , modelo.nombre modelo
             , estado.nombre estado
             , tipo_vehiculo.nombre tipo

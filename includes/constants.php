@@ -1,4 +1,5 @@
 <?php
+
 require 'extensiones.php';
 /**
  * Constantes y configuacion del sistema
@@ -8,7 +9,7 @@ require 'extensiones.php';
 // <editor-fold defaultstate="collapsed" desc="configuracion regional">
 date_default_timezone_set("America/Caracas");
 error_reporting(E_ALL);
-ini_set("max_execution_time",60);
+ini_set("max_execution_time", 60);
 // </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="init">
 $debug = true;
@@ -16,7 +17,7 @@ $email_error = false;
 $mostrar_error = true;
 // </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="Cheqeuo servidor">
-if ($_SERVER['SERVER_NAME'] != "localhost" ) {
+if ($_SERVER['SERVER_NAME'] != "localhost") {
     $host = "mysql6.000webhost.com";
     $user = "a2762740_ggcarro";
     $password = "Gangacarro2013";
@@ -68,9 +69,9 @@ Twig_Autoloader::register();
 
 $loader = new Twig_Loader_Filesystem(SERVER_ROOT . 'template');
 $twig = new Twig_Environment($loader, array(
-            'debug' => $debug,
-            'cache' => SERVER_ROOT . 'cache',
-            "auto_reload" => $debug)
+    'debug' => $debug,
+    'cache' => SERVER_ROOT . 'cache',
+    "auto_reload" => $debug)
 );
 if (isset($_SESSION))
     $twig->addGlobal("session", $_SESSION);
@@ -81,7 +82,7 @@ $twig->addExtension(new Twig_Extension_Debug());
 //</editor-fold>
 //<editor-fold defaultstate="collapsed" desc="autoload">
 function __autoload($clase) {
-    include_once SERVER_ROOT . "includes/" . $clase . ".php";
+    include_once SERVER_ROOT . "includes/" . strtolower($clase) . ".php";
 }
 
 spl_autoload_register("__autoload", false);

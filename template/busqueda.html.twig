@@ -1,21 +1,5 @@
 {% extends "layout/base.html.twig" %}
 {% block titulo 'Buscar Carro' %}
-{# Head #}
-{% block head %}
-<script src="{{constant("URL_SISTEMA")}}js/index.js"></script>
-<script>
-$(document).ready(function(){
-    $("input[type='submit']").click(function(){
-        form = $(this).parents("form:eq(0)");
-        $("input, select", form).each(function(){
-            if($(this).val()==""){
-                $(this).attr("disabled",true);
-            }
-        });
-    });
-});
-</script>
-{% endblock %}
 {# Encabezado #}
 {% block encabezado %}
 <h1>Buscar Carros</h1>
@@ -33,7 +17,7 @@ $(document).ready(function(){
     <div class="well well-small">
         <div class="btn-toolbar ">
             <div class="btn-group">
-                <span class="btn btn-info disabled">Ordenar Resultados por:</span>
+                <span class="btn btn-inverse disabled">Ordenar Resultados por:</span>
             </div>
             <div class="btn-group">
                 <span class="btn btn-inverse disabled">Precio</span>

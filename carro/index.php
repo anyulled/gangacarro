@@ -47,7 +47,12 @@ if (isset($_GET['accion'])) {
         case 'editar':
             $pagina = "carro/formulario.html.twig";
             $result = $auto->ver($_GET['id']);
-            $variables = llenar_selects();
+            if ($result['suceed'] && count($result['data']) > 0) {
+                $variables = llenar_selects($result['data'][0]['marca_id']);
+            } else {
+                $variables['tipomensaje'] = "alert-error";
+                $variables['mensaje'] = "No se pudo cargar el registro";
+            }
             break;
         default:
             $marcas = $db->dame_query("select * from marca");
@@ -109,7 +114,7 @@ If (isset($_POST['accion'])) {
     }
 }
 
-function llenar_selects() {
+function llenar_selects($marca = null) {
     $db = new db();
     $variables = array();
     $tipo_vehiculos = $db->dame_query("select * from tipo_vehiculo");
@@ -117,8 +122,12 @@ function llenar_selects() {
     $transmision = $db->dame_query("select * from transmision_vehiculo");
     $traccion = $db->dame_query("select * from traccion_vehiculo");
     $direccion = $db->select("*", "direccion_vehiculo");
-    $modelos = $db->select("*", "modelo");
     $marcas = $db->select("*", "marca");
+    if ($marca != null) {
+        $modelos = $db->select("*", "modelo", array("marca.id" => $marca));
+    } else {
+        $modelos = $db->select("*", "modelo");
+    }
     $variables['modelos'] = $modelos['data'];
     $variables['marcas'] = $marcas['data'];
     $variables['tipo_vehiculos'] = $tipo_vehiculos['data'];

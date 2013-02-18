@@ -5,10 +5,7 @@
 
 {# HEAD #}
 {% block head %}
-<script src="{{constant('URL_SISTEMA')}}js/jquery-validate/jquery.validate.js"></script>
 <script src="{{constant('URL_SISTEMA')}}js/jquery-validate/localization/messages_es.js"></script>
-<script src="{{constant('URL_SISTEMA')}}js/index.js"></script>
-<script src="{{constant('URL_SISTEMA')}}js/formulario.js"></script>
 <script>
             $(document).ready(function(){
                 $("#registrar").validate({
@@ -44,17 +41,6 @@
                     submitHandler:function(){
                         console.log("validando");
                         if($("#registrar").valid()){
-                            /*mensaje = "<div class='info'><img src='../images/info.png' /><p>Cargando, por favor espere</p></div>";
-                            $.fancybox(mensaje,
-                            {
-                                'autoDimensions'    : false,
-                                'modal'                    :true,
-                                'width'                     : 350,
-                                'height'                   : 'auto',
-                                'transitionIn'           : 'none',
-                                'transitionOut'        : 'none'
-                            }
-                        );*/
                             registrar.submit();
                         }
                     }

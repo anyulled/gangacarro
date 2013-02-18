@@ -12,6 +12,9 @@
         <link href="{{constant('URL_SISTEMA')}}css/style.css" rel="stylesheet">
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script src="{{constant("URL_SISTEMA")}}js/bootstrap.js"></script>
+        <script src="{{constant("URL_SISTEMA")}}js/jquery-validate/jquery.validate.js"></script>
+        <script src="{{constant("URL_SISTEMA")}}js/index.js"></script>
+        <script src="{{constant("URL_SISTEMA")}}js/formulario.js"></script>
         <!--<script src="{{constant('URL_SISTEMA')}}js/bootstrap.min.js"></script>-->
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -22,6 +25,19 @@
         {% endblock %}
         </head>
     <body>
+        <div class="modal">
+            <div class="modal-header">
+                <a class="close">&times;</a>
+                Procesando</div>
+            <div class="modal-body">
+                <div class="progress progress-info progress-striped active">
+                    <div class="bar" style="width: 100%;"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a id="cerrar" href="#" class="btn">Cerrar</a>
+            </div>
+        </div>
             <div class="navbar navbar-inverse navbar-fixed-top">
                 {% include 'layout/topbar.html.twig'%}
             </div>
