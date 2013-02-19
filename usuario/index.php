@@ -91,17 +91,19 @@ if (isset($_POST['accion'])) {
         case "Registrar":
             $data = $_POST;
             unset($data['accion'], $data['id'], $data['repetir']);
-            $data['status'] = 1;
-            $data['rol_id'] = 0;
+            $data['tipo_usuario'] = 2;
             try {
                 $result = $usuario->insertar($data);
                 if ($result['suceed']) {
                     $variables['tipomensaje'] = ALERT_SUCCESS;
                     $variables['mensaje'] = "Usuario creado con éxito";
                 } else {
-                    throw new Exception("No se pudo registrar el usuario");
+                    throw new Exception("No se pudo registrar el usuario",$result);
                 }
             } catch (Exception $exc) {
+                if(isset($_POST['accion']))
+                    $variables['dato'] = $_POST;
+                $variables['codigo'] = $exc->getCode();
                 $variables['tipomensaje'] = ALERT_ERROR;
                 $variables['mensaje'] = $exc->getMessage();
             }

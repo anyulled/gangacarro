@@ -147,6 +147,7 @@ function eventosGlobales() {
 }
 function validar_formulario() {
     $("form").each(function() {
+        console.log("validando " + $(this).attr("name"));
         $(this).validate();
     });
 }

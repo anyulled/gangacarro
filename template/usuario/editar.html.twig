@@ -1,20 +1,14 @@
 {% extends "layout/base.html.twig"%}
 {% block head %}
-<script type="text/javascript" src="{{ constant("URL_SISTEMA")~"js/jquery-validate/localization/messages_es.js" }}"></script>
+{% if get.accion|lower == "crear" or get.accion|lower == "registrar" %}
 <script type="text/javascript">
-    $(document).ready(function(){
-        $("#usuario").validate({
-            {% if get.accion == "crear"%}
-            rules: {
-                password: "required",
-                repetir: {
-                    equalTo: "#password"
-                }
-            }
-            {%endif %}
-        });
+$(document).ready(function(){
+    $("#repetir").rules("add",{
+        equalTo:"#password"
     });
-    </script>
+});
+</script>
+{%endif %}
 {% endblock %}
 {%block titulo get.accion|title ~ ' Usuario' %}
 
@@ -52,14 +46,14 @@
                     <div class="control-group">
                         <label class="control-label" for="password">Password</label>
                         <div class="controls">
-                            <input id="password" type="password" class="{{ get.accion=="crear"?"required":""}}" name="password" value="{{ dato.password }}" {{ modolectura ? "disabled='true'" : " " }}/>
+                            <input id="password" type="password" class="{{ (get.accion|lower=="crear" or get.accion|lower == "registrar") ? "required":""}}" name="password" value="{{ dato.password }}" {{ modolectura ? "disabled='true'" : " " }}/>
                         </div>
                     </div>
-                    {% if get.accion =="crear" %}
+                    {% if get.accion|lower =="crear" or get.accion|lower == "registrar" %}
                     <div class="control-group">
                         <label class="control-label" for="repetir">Repita Password</label>
                         <div class="controls">
-                            <input id="repetir" class="required" type="password" name="repetir" value="" {{ modolectura ? "disabled='true'" : " " }}/>
+                            <input id="repetir" class="required" type="password" name="repetir" value="{{ dato.password }}" {{ modolectura ? "disabled='true'" : " " }}/>
                         </div>
                     </div>
                     {% endif %}
@@ -86,7 +80,7 @@
                     <div class="control-group">
                 <label class="control-label">estado</label>
                 <div class="controls">
-                    <select class="required" name="estado_id" {{ modolectura ? "disabled='true'" : " " }}>
+                    <select id="estado" class="required" name="estado_id" {{ modolectura ? "disabled='true'" : " " }}>
                     {% for estado in estados %}
                         <option value="{{estado.id}}" {{ estado.id == dato.estado_id ? " selected='selected' ":""}}>{{ estado.nombre|capitalize }}</option>
                     {% endfor %}
@@ -96,7 +90,7 @@
                     <div class="control-group">
                 <label class="control-label">ciudad</label>
                 <div class="controls">
-                    <select class="required" name="ciudad_id" {{ modolectura ? "disabled='true'" : " " }}>
+                    <select id="ciudad" class="required" name="ciudad_id" {{ modolectura ? "disabled='true'" : " " }}>
                     {% for ciudad in ciudades %}
                         <option value="{{ciudad.id}}" {{ ciudad.id == dato.ciudad_id ? " selected='selected' ":""}}>{{ ciudad.nombre|capitalize }}</option>
                     {%else%}
@@ -129,16 +123,12 @@
                 </div>
             </div>
             <div class="form-actions">
-            {% if get.accion =="editar" %}
-                <input type="submit" name="accion" value="Editar" class="btn btn-primary"/>
-            {% endif %}
-            {% if get.accion =="crear" or get.accion == "Registrar" %}
-                <input type="submit" name="accion" value="Crear" class="btn btn-primary"/>
-            {% endif %}
-            {% if get.accion == "ver"%}
+            {% if get.accion != "ver"%}
+                <input type="submit" name="accion" value="{{get.accion|title}}" class="btn btn-primary"/>
+            {% else %}
                 <a class="btn btn-info" href="{{constant('URL_SISTEMA') ~ "usuario/editar/" ~ dato.id }}">Editar</a>
-            {%endif%}
-            {% if get.accion == "editar" or get.accion == "ver" %}
+            {% endif %}
+            {% if get.accion|lower == "editar" or get.accion|lower == "ver" %}
                 <input type="submit" class="btn btn-danger" name="accion" value="Eliminar"/>
             {% endif %}
                 <a href="{{constant('URL_SISTEMA')}}usuario/listar" class="btn">Atras</a>

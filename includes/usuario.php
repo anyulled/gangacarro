@@ -18,12 +18,12 @@ class usuario extends db implements crud {
     public function insertar($data) {
         $data["password"] = md5($data["password"]);
         try {
-            $this->comprobar_existencia("login", $data['login']);
+            $this->comprobar_existencia("login", trim($data['login']));
         } catch (Exception $exc) {
             throw new Exception("Este nombre de usuario ya existe");
         }
         try {
-            $this->comprobar_existencia("email", $data['email']);
+            $this->comprobar_existencia("email", trim($data['email']));
         } catch (Exception $exc) {
             throw new Exception("Ya existe un usuario registrado con este email");
         }
@@ -39,7 +39,7 @@ class usuario extends db implements crud {
      * @throws Exception devuelve una excepción en caso afirmativo
      */
     private function comprobar_existencia($campo, $valor) {
-        $usuario = $this->select($campo, self::tabla, array($campo => $valor));
+        $usuario = $this->dame_query("select * from usuario where $campo = '$valor'");
         if ($usuario['suceed'] && count($usuario['data']) > 0) {
             throw new Exception("Registro ya existe");
         };
