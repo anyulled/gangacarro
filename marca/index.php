@@ -19,7 +19,7 @@ if (isset($_GET['accion'])) {
                 } else {
                     $variables['codigo'] = $marca;
                     $variables['mensaje'] = "marca no encontrada";
-                    $variables['tipomensaje'] = "alert-warn";
+                    $variables['tipomensaje'] = ALERT_INFO;
                     break;
                 }
             }
@@ -33,13 +33,13 @@ if (isset($_GET['accion'])) {
                 } else {
                     $variables['codigo'] = $modelo;
                     $variables['mensaje'] = "modelo no encontrado";
-                    $variables['tipomensaje'] = "alert-warn";
+                    $variables['tipomensaje'] = ALERT_INFO;
                 }
             }
             break;
         default:
             $variables['mensaje'] = "opcion invalida";
-            $variables['tipomensaje'] = "alert-danger";
+            $variables['tipomensaje'] = ALERT_ERROR;
             break;
     }
 }

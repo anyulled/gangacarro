@@ -6,6 +6,7 @@ if (isset($_POST['submit'])) {
     $usuario = new usuario();
     $resultado = $usuario->login($_POST['login'], $_POST['password']);
     if ($resultado['suceed'] == false) {
+        $variables['tipomensaje'] = ALERT_ERROR;
         $variables['mensaje'] = $resultado['error'];
         $variables['codigo'] = $resultado;
     }

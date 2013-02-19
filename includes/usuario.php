@@ -11,11 +11,29 @@ class usuario extends db implements crud {
 
     public function insertar($data) {
         $data["password"] = md5($data["password"]);
+        try {
+            $this->comprobar_existencia("login", $data['login']);
+        } catch (Exception $exc) {
+            throw new Exception("Este nombre de usuario ya existe");
+        }
+        try {
+            $this->comprobar_existencia("email", $data['email']);
+        } catch (Exception $exc) {
+            throw new Exception("Ya existe un usuario registrado con este email");
+        }
+
         return $this->insert(self::tabla, $data);
     }
 
+    private function comprobar_existencia($campo, $valor) {
+        $usuario = $this->select($campo, self::tabla, array($campo => $valor));
+        if ($usuario['suceed'] && count($usuario['data']) > 0) {
+            throw new Exception("Registro ya existe");
+        };
+    }
+
     public function actualizar($id, $data) {
-        if(isset($data["password"])){
+        if (isset($data["password"])) {
             $data["password"] = md5($data["password"]);
         }
         return $this->update(self::tabla, $data, array("id" => $id));
@@ -93,9 +111,12 @@ class usuario extends db implements crud {
      * Cierra la sesión 
      */
     public function logout() {
+        @session_start();
         $_SESSION = array();
-            session_unset();
-            session_destroy();
+        session_unset();
+        session_destroy();
+        session_write_close();
+        header("location: " . URL_SISTEMA . "login.php");
     }
 
     public function listar_grupos() {

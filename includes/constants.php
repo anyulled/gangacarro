@@ -8,7 +8,6 @@ require 'extensiones.php';
  */
 // <editor-fold defaultstate="collapsed" desc="configuracion regional">
 date_default_timezone_set("America/Caracas");
-error_reporting(E_ALL);
 ini_set("max_execution_time", 60);
 // </editor-fold>
 // <editor-fold defaultstate="collapsed" desc="init">
@@ -16,7 +15,7 @@ $debug = true;
 $email_error = false;
 $mostrar_error = true;
 // </editor-fold>
-// <editor-fold defaultstate="collapsed" desc="Cheqeuo servidor">
+// <editor-fold defaultstate="collapsed" desc="Chequeo servidor">
 if ($_SERVER['SERVER_NAME'] != "localhost") {
     $host = "mysql6.000webhost.com";
     $user = "a2762740_ggcarro";
@@ -27,7 +26,9 @@ if ($_SERVER['SERVER_NAME'] != "localhost") {
     $debug = false;
     $sistema = "/home/a2762740/public_html/";
     define("SERVER_ROOT", $sistema);
+    error_reporting(E_ERROR);
 } else {
+    error_reporting(E_ALL);
     $host = "localhost";
     $user = "root";
     $password = "root";
@@ -49,7 +50,6 @@ define("EMAIL_CONTACTO", "anyulled@gmail.com");
 define("EMAIL_TITULO", "error");
 define("MOSTRAR_ERROR", $mostrar_error);
 define("DEBUG", $debug);
-
 define("TITULO", "GangaCarro");
 /**
  * para las urls
@@ -60,9 +60,12 @@ define("URL_SISTEMA", ROOT . $sistema);
  * para los includes
  */
 define("TEMPLATE", SERVER_ROOT . "/template/");
-
+/* para las alertas*/
+define("ALERT_SUCCESS", "alert-success");
+define("ALERT_INFO", "alert-info");
+define("ALERT_ERROR", "alert-error");
 //</editor-fold>
-////<editor-fold defaultstate="collapsed" desc="Twig">
+//<editor-fold defaultstate="collapsed" desc="Twig">
 require_once SERVER_ROOT . 'includes/twig/lib/Twig/Autoloader.php';
 //include_once SERVER_ROOT . 'includes/extensiones.php';
 Twig_Autoloader::register();

@@ -20,11 +20,11 @@ if (isset($_POST['accion'])) {
             unset($data['id']);
             $result = $pb->insertar($data);
             if ($result['suceed']) {
-                $variables['tipomensaje'] = "alert-info";
+                $variables['tipomensaje'] = ALERT_SUCCESS;
                 $variables['mensaje'] = "Registro creado con exito";
                 $pagina = "publicidad/index.html.twig";
             } else {
-                $variables['tipomensaje'] = "alert-warn";
+                $variables['tipomensaje'] = ALERT_ERROR;
                 $variables['mensaje'] = "No se puedo crear el registro. por favor intente de nuevo";
                 $variables['codigo'] = $result;
                 $pagina = "publicidad/formulario.html.twig";
@@ -34,12 +34,12 @@ if (isset($_POST['accion'])) {
             $id = $_POST['id'];
             $result = $pb->actualizar($id, $data);
             if ($result['suceed']) {
-                $variables['tipomensaje'] = "alert-info";
+                $variables['tipomensaje'] = ALERT_SUCCESS;
                 $variables['mensaje'] = "Registro editado con exito";
                 $pagina = "publicidad/index.html.twig";
             } else {
                 $variables['publicacion'] = $_POST;
-                $variables['tipomensaje'] = "alert-warn";
+                $variables['tipomensaje'] = ALERT_ERROR;
                 $variables['codigo'] = $result;
                 $variables['mensaje'] = "No se puedo editar el registro. por favor intente de nuevo";
                 $pagina = "publicidad/formulario.html.twig";
@@ -49,19 +49,19 @@ if (isset($_POST['accion'])) {
             $id = $_POST['id'];
             $result = $pb->borrar($id);
             if ($result['suceed']) {
-                $variables['tipomensaje'] = "alert-info";
+                $variables['tipomensaje'] = ALERT_SUCCESS;
                 $variables['mensaje'] = "Registro eliminado con exito";
                 $_GET['accion'] = "listar";
             } else {
                 $variables['codigo'] = $result;
-                $variables['tipomensaje'] = "alert-warn";
+                $variables['tipomensaje'] = ALERT_ERROR;
                 $variables['mensaje'] = "No se puedo eliminar el registro. por favor intente de nuevo";
                 $pagina = "publicidad/index.html.twig";
             }
             break;
         default:
             $variables['mensaje'] = "Opcion invalida";
-            $variables['tipomensaje'] = "alert-error";
+            $variables['tipomensaje'] = ALERT_ERROR;
             break;
     }
 }
@@ -87,7 +87,7 @@ if (isset($_GET['accion'])) {
                 $variables['publicacion'] = $publicacion['data'][0];
                 $pagina = "publicidad/formulario.html.twig";
             } else {
-                $variables['tipomensaje'] = "alert-error";
+                $variables['tipomensaje'] = ALERT_ERROR;
                 $variables['mensaje'] = "no se pudo cargar la publicacion";
             }
             break;
@@ -101,12 +101,12 @@ if (isset($_GET['accion'])) {
                 $variables['publicacion'] = $publicacion['data'][0];
                 $pagina = "publicidad/formulario.html.twig";
             } else {
-                $variables['tipomensaje'] = "alert-error";
+                $variables['tipomensaje'] = ALERT_ERROR;
                 $variables['mensaje'] = "no se pudo cargar la publicacion";
             }
             break;
         default:
-            $variables['mensaje'] = "Opcion invalida";
+            $variables['mensaje'] = ALERT_ERROR;
             $variables['tipomensaje'] = "alert-error";
             break;
     }

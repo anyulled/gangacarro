@@ -8,7 +8,7 @@ $auto = new auto();
 $usuario = new usuario();
 $pag = new paginacion();
 if (!isset($_POST['accion']) && !isset($_GET['accion'])) {
-    $_GET['accion'] = "merwebo";
+    $_GET['accion'] = "nada";
 }
 
 if (isset($_GET['accion'])) {
@@ -24,7 +24,7 @@ if (isset($_GET['accion'])) {
                 $variables['vendedor'] = $usuario['data'][0];
             } else {
                 $variables['mensaje'] = "Carro no encontrado";
-                $variables['tipomensaje'] = "alert-danger";
+                $variables['tipomensaje'] = ALERT_ERROR;
             }
             break;
         case "listar":
@@ -50,7 +50,7 @@ if (isset($_GET['accion'])) {
             if ($result['suceed'] && count($result['data']) > 0) {
                 $variables = llenar_selects($result['data'][0]['marca_id']);
             } else {
-                $variables['tipomensaje'] = "alert-error";
+                $variables['tipomensaje'] = ALERT_ERROR;
                 $variables['mensaje'] = "No se pudo cargar el registro";
             }
             break;
@@ -75,7 +75,7 @@ If (isset($_POST['accion'])) {
             if ($result['suceed']) {
                 $variables['mensaje'] = "Registro creado con exito";
             } else {
-                $variables['tipomensaje'] = "alert-warn";
+                $variables['tipomensaje'] = ALERT_ERROR;
                 $variables['mensaje'] = "No se pudo agregar el registro. Por favor intente de nuevo";
                 $variables['codigo'] = $result;
             }
@@ -89,9 +89,10 @@ If (isset($_POST['accion'])) {
             unset($_POST['accion']);
             $result = $auto->actualizar($id, $data);
             if ($result['suceed']) {
+                $variables['tipomensaje'] = ALERT_SUCCESS;
                 $variables['mensaje'] = "Registro editado con exito";
             } else {
-                $variables['tipomensaje'] = "alert-warn";
+                $variables['tipomensaje'] = ALERT_ERROR;
                 $variables['mensaje'] = "No se pudo editar el registro. Por favor intente de nuevo";
                 $variables['codigo'] = $result;
             }
@@ -100,14 +101,16 @@ If (isset($_POST['accion'])) {
             $id = $_POST['id'];
             $result = $auto->borrar($id);
             if ($result['suceed']) {
-                $variables['mensaje'] = "Registro eliminaxo con exito";
+                $variables['tipomensaje'] = ALERT_SUCCESS;
+                $variables['mensaje'] = "Registro eliminado con exito";
             } else {
-                $variables['tipomensaje'] = "alert-warn";
+                $variables['tipomensaje'] = ALERT_ERROR;
                 $variables['mensaje'] = "No se pudo eliminar el registro. Por favor intente de nuevo";
                 $variables['codigo'] = $result;
             }
             break;
         default:
+            $variables['tipomensaje'] = ALERT_INFO;
             $variables['mensaje'] = "accion incorrecta";
             $pagina = "carro/admin.html.twig";
             break;

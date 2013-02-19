@@ -1,7 +1,5 @@
 {% extends "layout/base.html.twig"%}
 {% block head %}
-<script type="text/javascript" src="{{ constant("URL_SISTEMA")~"js/formulario.js" }}"></script>
-<script type="text/javascript" src="{{ constant("URL_SISTEMA")~"js/jquery-validate/jquery.validate.min.js" }}"></script>
 <script type="text/javascript" src="{{ constant("URL_SISTEMA")~"js/jquery-validate/localization/messages_es.js" }}"></script>
 <script type="text/javascript">
     $(document).ready(function(){
@@ -107,7 +105,7 @@
                     </select>
                 </div>
             </div>
-            {% if usuario.tipo_usuario == 1 %}
+            {% if usuario is defined and usuario.tipo_usuario == 1 %}
                 <div class="control-group">
                     <label class="control-label">Rol</label>
                     <div class="controls">
@@ -134,13 +132,13 @@
             {% if get.accion =="editar" %}
                 <input type="submit" name="accion" value="Editar" class="btn btn-primary"/>
             {% endif %}
-            {% if get.accion =="crear" %}
+            {% if get.accion =="crear" or get.accion == "Registrar" %}
                 <input type="submit" name="accion" value="Crear" class="btn btn-primary"/>
             {% endif %}
             {% if get.accion == "ver"%}
                 <a class="btn btn-info" href="{{constant('URL_SISTEMA') ~ "usuario/editar/" ~ dato.id }}">Editar</a>
             {%endif%}
-            {% if get.accion != "crear" %}
+            {% if get.accion == "editar" or get.accion == "ver" %}
                 <input type="submit" class="btn btn-danger" name="accion" value="Eliminar"/>
             {% endif %}
                 <a href="{{constant('URL_SISTEMA')}}usuario/listar" class="btn">Atras</a>

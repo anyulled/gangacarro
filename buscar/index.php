@@ -55,7 +55,7 @@ if (isset($_GET['order']) && isset($_GET['dir'])) {
         $variables['paginado'] = $pag->mostrar_paginado_lista();
     } else {
         $variables['mensaje'] = "No se encontraron resultados para este criterio de busqueda.";
-        $variables['tipomensaje'] = "alert-info";
+        $variables['tipomensaje'] = ALERT_INFO;
         $variables['codigo'] = $pag->query;
     }
 // </editor-fold>

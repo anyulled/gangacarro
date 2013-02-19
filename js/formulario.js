@@ -31,7 +31,7 @@ $(document).ready(function() {
                     $(this).attr("disabled", true);
                 }
             });
-            if (valor !== "Buscar") {
+            if (valor !== "Buscar" && valor !== "iniciar sesion") {
                 return confirm(mensaje);
             } else{
                 return true;

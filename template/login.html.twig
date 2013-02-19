@@ -4,10 +4,11 @@
 {%endblock%}
 {%block contenido %}
 <div class="row">
-    <div class="span3 offset5">
-        <form class="form" method="post">
+    <div class="span6">
+        <h2>Usuario Existente</h2>
+        <form class="form form-horizontal" method="post">
             <fieldset>
-                <legend>Inicie Ses&oacute;n</legend>
+                <legend>Inicie Sesi&oacute;n</legend>
                 <div class="control-group">
                     <label class="control-label">Login</label>
                     <div class="controls">
@@ -25,6 +26,13 @@
                 </div>
             </fieldset>
         </form>
+    </div>
+    <div class="span6">
+        <h2>Usuario Nuevo</h2>
+        <br/><br/>
+        <div class="well well-large">
+            <a href="{{constant('URL_SISTEMA')}}usuario/Registrar" class="btn btn-info">Registrar nuevo usuario</a>
+        </div>
     </div>
 </div>
 {% endblock %}
