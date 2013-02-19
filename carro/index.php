@@ -6,6 +6,7 @@ $variables = array();
 $db = new db();
 $auto = new auto();
 $usuario = new usuario();
+$usuario->confirmar_miembro();
 $pag = new paginacion();
 if (!isset($_POST['accion']) && !isset($_GET['accion'])) {
     $_GET['accion'] = "nada";
@@ -31,14 +32,21 @@ if (isset($_GET['accion'])) {
             $pag->paginar($auto::consulta_base, 10);
             $variables['paginado'] = $pag->mostrar_paginado_lista(false);
             $variables['registros'] = $pag->registros;
-            $pagina = "carro/admin.html.twig";
+            $pagina = "carro/listado.html.twig";
             break;
         case "consultar":
-            $carro = $auto->ver($_GET['id']);
-            $variables = llenar_selects();
-            $variables['registro'] = $carro['data'][0];
-            $variables['accion'] = "ver";
             $pagina = "carro/formulario.html.twig";
+            $carro = $auto->ver($_GET['id']);
+            if ($carro['suceed'] && count($carro['data'] > 0)) {
+                $imagenes = $auto->ver_imagenes_carro($_GET['id']);
+                $variables = llenar_selects();
+                $variables['modolectura'] = true;
+                $variables['imagenes'] = $imagenes['data'];
+                $variables['registro'] = $carro['data'][0];
+            } else {
+                $variables['tipomensaje'] = ALERT_ERROR;
+                $variables['mensaje'] = "No se pudo cargar el registro";
+            }
             break;
         case "registrar":
             $pagina = "carro/formulario.html.twig";
@@ -48,7 +56,11 @@ if (isset($_GET['accion'])) {
             $pagina = "carro/formulario.html.twig";
             $result = $auto->ver($_GET['id']);
             if ($result['suceed'] && count($result['data']) > 0) {
+                $imagenes = $auto->ver_imagenes_carro($_GET['id']);
                 $variables = llenar_selects($result['data'][0]['marca_id']);
+                $variables['registro'] = $result['data'][0];
+                $variables['imagenes'] = $imagenes['data'];
+                $variables['modolectura'] = false;
             } else {
                 $variables['tipomensaje'] = ALERT_ERROR;
                 $variables['mensaje'] = "No se pudo cargar el registro";
@@ -112,7 +124,7 @@ If (isset($_POST['accion'])) {
         default:
             $variables['tipomensaje'] = ALERT_INFO;
             $variables['mensaje'] = "accion incorrecta";
-            $pagina = "carro/admin.html.twig";
+            $pagina = "carro/listado.html.twig";
             break;
     }
 }
@@ -131,6 +143,8 @@ function llenar_selects($marca = null) {
     } else {
         $modelos = $db->select("*", "modelo");
     }
+    if (isset($_GET['accion']))
+        $variables['get'] = $_GET;
     $variables['modelos'] = $modelos['data'];
     $variables['marcas'] = $marcas['data'];
     $variables['tipo_vehiculos'] = $tipo_vehiculos['data'];

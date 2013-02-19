@@ -28,7 +28,7 @@
             <td><span class="pull-right">{{ carro.precio|number_format(2,",",".") }} Bsf.</span></td>
             <td>{{ carro.status==1?"Activo":"Inactivo" }}</td>
             <td>
-                <a href="{{ constant("URL_SISTEMA") }}carro/ver/{{ carro.id }}" class="btn btn-info">Ver</a>
+                <a href="{{ constant("URL_SISTEMA") }}carro/consultar/{{ carro.id }}" class="btn btn-info">Ver</a>
                 <a href="{{ constant("URL_SISTEMA") }}carro/editar/{{ carro.id }}" class="btn btn-primary">Editar</a>
             </td>
         </tr>

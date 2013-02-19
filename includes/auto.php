@@ -9,6 +9,9 @@ class Auto extends db implements crud {
 
     private $imagen;
     public $errores = array();
+
+    // <editor-fold defaultstate="collapsed" desc="consulta base">
+
     const consulta_base = "select carro.*
             , color.nombre color
             , traccion_vehiculo.nombre traccion
@@ -31,6 +34,8 @@ class Auto extends db implements crud {
         inner join usuario on carro.usuario_id = usuario.id
         inner join estado on usuario.estado_id = estado.id
         inner join direccion_vehiculo on carro.direccion_vehiculo_id = direccion_vehiculo.id";
+
+// </editor-fold>
 
     private function ingresarAuto($data) {
         // <editor-fold defaultstate="collapsed" desc="Data">
@@ -124,7 +129,7 @@ class Auto extends db implements crud {
     }
 
     function mostrarAuto($id) {
-        return $this->dame_query(self::consulta_base." where carro.id=$id");
+        return $this->dame_query(self::consulta_base . " where carro.id=$id");
     }
 
     private function listarAutos($marca = null, $modelo = null, $limit = null) {
@@ -136,7 +141,7 @@ class Auto extends db implements crud {
             $query.=" and modelo.id = $modelo ";
         }
         $query.=" order by carro.id desc ";
-        if($limit!=null){
+        if ($limit != null) {
             $query.=" limit $limit ";
         }
         return $this->dame_query($query);
@@ -215,7 +220,7 @@ class Auto extends db implements crud {
     }
 
     function ultimas_publicaciones($limit = 4) {
-        return $this->db->dame_query(self::consulta_base." where carro.status=1 order by rand() limit $limit");
+        return $this->db->dame_query(self::consulta_base . " where carro.status=1 order by rand() limit $limit");
     }
 
     function listar_tipo_vehiculos() {
@@ -242,9 +247,10 @@ class Auto extends db implements crud {
         return $this->mostrarAuto($id);
     }
 
-    public function ver_imagenes_carro($carro_id){
+    public function ver_imagenes_carro($carro_id) {
         return $this->dame_query("select * from imagen_carros where carro_id = $carro_id");
     }
+
 }
 
 ?>

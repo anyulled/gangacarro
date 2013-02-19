@@ -1,5 +1,5 @@
 <?php
-
+@session_start();
 require 'extensiones.php';
 /**
  * Constantes y configuacion del sistema

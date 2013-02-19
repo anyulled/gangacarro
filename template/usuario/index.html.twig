@@ -1,7 +1,7 @@
 {% extends "layout/base.html.twig"%}
 {% block titulo 'Usuario' %}
 {% block encabezado %}
-<h1>Panel de Usuario</h1>
+<h1>Panel de Usuario <small>{{ session.usuario.rol }}</small></h1>
 {% endblock %}
 {% block contenido %}
 <div class="row">
@@ -16,6 +16,7 @@
                 </ul>
             </div>
         </div>
+            <h2>Bienvenido(a) {{session.usuario.nombre|title~" "~session.usuario.apellido|title}}</h2>
     </div>
 </div>
 {% endblock %}

@@ -3,7 +3,6 @@
 // <editor-fold defaultstate="collapsed" desc="inicio">
 include '../includes/constants.php';
 $usuario = new usuario();
-
 $variables = array();
 $variables['get'] = $_GET;
 $pagina = "usuario/index.html.twig";
