@@ -9,12 +9,42 @@
         <table class="table table-bordered table-striped">
     <thead>
         <tr>
-            <th>id</th>
-            <th>Marca</th>
-            <th>Modelo</th>
-            <th>A&ntilde;o</th>
-            <th>Precio</th>
-            <th>Status</th>
+            <th>id
+                <div class="btn-group pull-right">
+                    <a href="{{url_sortable("id","asc")|raw }}" class="btn btn-mini btn-info"><i class="icon-chevron-up icon-white"></i></a>
+                    <a href="{{url_sortable("id","desc")|raw }}" class="btn btn-mini btn-info"><i class="icon-chevron-down icon-white"></i></a>
+                </div>
+            </th>
+            <th>Marca
+                <div class="btn-group pull-right">
+                    <a href="{{url_sortable("marca","asc")|raw }}" class="btn btn-mini btn-info"><i class="icon-chevron-up icon-white"></i></a>
+                    <a href="{{url_sortable("marca","desc")|raw }}" class="btn btn-mini btn-info"><i class="icon-chevron-down icon-white"></i></a>
+                </div>
+            </th>
+            <th>Modelo
+                <div class="btn-group pull-right">
+                    <a href="{{url_sortable("modelo","asc")|raw }}" class="btn btn-mini btn-info"><i class="icon-chevron-up icon-white"></i></a>
+                    <a href="{{url_sortable("modelo","desc")|raw }}" class="btn btn-mini btn-info"><i class="icon-chevron-down icon-white"></i></a>
+                </div>
+            </th>
+            <th>A&ntilde;o
+                <div class="btn-group pull-right">
+                    <a href="{{url_sortable("anio","asc")|raw }}" class="btn btn-mini btn-info"><i class="icon-chevron-up icon-white"></i></a>
+                    <a href="{{url_sortable("anio","desc")|raw }}" class="btn btn-mini btn-info"><i class="icon-chevron-down icon-white"></i></a>
+                </div>
+            </th>
+            <th>Precio
+                <div class="btn-group pull-right">
+                    <a href="{{url_sortable("precio","asc")|raw }}" class="btn btn-mini btn-info"><i class="icon-chevron-up icon-white"></i></a>
+                    <a href="{{url_sortable("precio","desc")|raw }}" class="btn btn-mini btn-info"><i class="icon-chevron-down icon-white"></i></a>
+                </div>
+            </th>
+            <th>Status
+                <div class="btn-group pull-right">
+                    <a href="{{url_sortable("status","asc")|raw }}" class="btn btn-mini btn-info"><i class="icon-chevron-up icon-white"></i></a>
+                    <a href="{{url_sortable("status","desc")|raw }}" class="btn btn-mini btn-info"><i class="icon-chevron-down icon-white"></i></a>
+                </div>
+            </th>
             <th>Acciones</th>
         </tr>
     </thead>
