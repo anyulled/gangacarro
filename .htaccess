@@ -7,3 +7,10 @@ Rewriterule ^([A-Za-z\-]+)/([A-Za-z\-]+)$ $1/index.php?accion=$2 [L]
 Rewriterule ^([A-Za-z\-]+)/([A-Za-z\-]+)/([A-Za-z\-]+)$ $1/index.php?accion=$2&marca=$3 [L]
 Rewriterule ^([A-Za-z\-]+)/([A-Za-z\-]+)/([0-9]{1,5})$ $1/index.php?accion=$2&id=$3 [L]
 Rewriterule ^([A-Za-z\-]+)/([A-Za-z\-]+)/([A-Za-z\-]+)/([A-Za-z0-9\-\.]+)$ $1/index.php?accion=$2&marca=$3&modelo=$4 [L]
+
+<IfModule mod_expires.c>
+ExpiresActive On
+<FilesMatch "\.(ico|pdf|flv|jpg|jpeg|png|gif|js|css|swf)$">
+ExpiresDefault "access plus 1 year"
+</FilesMatch>
+</IfModule>

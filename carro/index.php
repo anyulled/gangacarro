@@ -48,6 +48,7 @@ if (isset($_GET['accion'])) {
                 $variables['mensaje'] = "No se pudo cargar el registro";
             }
             break;
+        case "Registrar":
         case "registrar":
             $pagina = "carro/formulario.html.twig";
             $variables = llenar_selects();
@@ -156,4 +157,6 @@ function llenar_selects($marca = null) {
 }
 
 echo $twig->render($pagina, $variables);
+
+var_dump("session", $_SESSION, "get", $_GET, "post", $_POST, "files", $_FILES);
 ?>

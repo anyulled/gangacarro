@@ -78,6 +78,10 @@ $twig = new Twig_Environment($loader, array(
 );
 if (isset($_SESSION))
     $twig->addGlobal("session", $_SESSION);
+if(isset($_GET))
+    $twig->addGlobal("get", $_GET);
+if(isset($_POST))
+    $twig->addGlobal("post", $_POST);
 
 $twig->addExtension(new extensiones());
 $twig->addExtension(new Twig_Extension_Debug());
