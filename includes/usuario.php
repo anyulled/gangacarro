@@ -101,7 +101,6 @@ class usuario extends db implements crud {
      * @return boolean 
      */
     public function login($usuario, $password) {
-        $result = array();
         $password_encriptado = md5($password);
         try {
             $result = $this->dame_query("select usuario.*, tipo_usuario.nombre rol from usuario
@@ -112,6 +111,7 @@ class usuario extends db implements crud {
                 session_start();
                 $_SESSION['usuario'] = $result['data'][0];
                 $_SESSION['status'] = 'logueado';
+                session_write_close();
                 header("location:" . URL_SISTEMA . "usuario/");
                 return $result;
             } else {
@@ -131,7 +131,7 @@ class usuario extends db implements crud {
      * Confirma que el usuario sea haya logueado en el sistema 
      */
     public function confirmar_miembro() {
-        @session_start();
+        //@session_start();
         if (!isset($_SESSION['status']) || $_SESSION['status'] != 'logueado' || !isset($_SESSION['usuario']))
             $this->logout();
     }

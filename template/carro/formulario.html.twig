@@ -5,62 +5,26 @@
 
 {# HEAD #}
 {% block head %}
-
-<script>
-            $(document).ready(function(){
-                $("#registrar").validate({
-                    rules: {
-                        precio:{
-                            digits:true,
-                            min:1000},
-                        placa:{
-                            alphanumeric:true
-                        },
-                       foto1: {
-                            required: true,
-                            accept: "jpg|png"
-                        },
-                       foto2: {
-                            accept: "jpg|png"
-                        },
-                       foto3: {
-                            accept: "jpg|png"
-                        },
-                       foto4: {
-                            accept: "jpg|png"
-                        },
-                       foto5: {
-                            accept: "jpg|png"},
-                        caracteristicas:{
-                            maxlength: 500
-                        }
-                    },
-                    messages:{
-                        precio:{digits:"Por favor, no incluya puntos ni comas en el precio"}
-                    },
-                    submitHandler:function(){
-                        console.log("validando");
-                        if($("#registrar").valid()){
-                            registrar.submit();
-                        }
-                    }
-                });
-            });
-    </script>
+{% if get.accion =='editar' %}
+<script src="{{constant("URL_SISTEMA")}}js/carro/editar.js"></script>
+{% else %}
+<script src="{{constant("URL_SISTEMA")}}js/carro/registrar.js"></script>
+{% endif %}
 {% endblock %}
     
 {# CONTENIDO #}
 {% block contenido %}
     <form name="registrar" id="registrar" action="" class="form form-horizontal" method="post" enctype="multipart/form-data">
         <input type="hidden" name="id" value="{{ registro.id }}"/>
+        {# Datos del Vehiculo #}
         <fieldset>
             <legend>Datos del Vehículo</legend>
             <div class="row">
                 <div class="span5">
                     <div class="control-group">
-                        <label class="control-label" for="tipo_vehiculo_id">Tipo de vehículo <sup>*</sup> </label>
+                        <label class="control-label" for="tipo_vehiculo">Tipo de vehículo <sup>*</sup> </label>
                         <div class="controls">
-                            <select name="tipo_vehiculo_id" class="required" {{ modolectura ? "disabled='true'" : "" }}>
+                            <select name="tipo_vehiculo" class="required" {{ modolectura ? "disabled='true'" : "" }}>
                                 <option value="">--</option>
                                 {% for tipo in tipo_vehiculos %}
                                 <option value="{{ tipo.id }}" {{registro.tipo_vehiculo == tipo.id?" selected='selected' ":"" }}>{{ tipo.nombre }}</option>
@@ -71,21 +35,21 @@
                     <div class="control-group">
                         <label class="control-label" for="marca_id">Marca<sup>*</sup> </label>
                         <div class="controls">
-                            <select id="marca" name="marca_id" id="marcas" class="required" {{ modolectura ? "disabled='true'" : "" }}>
+                            <select id="marca_id" name="marca_id" id="marcas" class="required" {{ modolectura ? "disabled='true'" : "" }}>
                                 {% for marca in marcas %}
                                     <option value="{{marca.id}}" {{registro.marca_id == marca.id?" selected='selected' ":"" }}> {{marca.nombre|title}} </option>
                                 {% else %}
                                     <option> -- </option>
                                 {% endfor %}
-                                </select>
+                            </select>
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label" for="modelo_id">Modelo <sup>*</sup></label>
                         <div class="controls">
-                            <select id="modelo" name="modelo_id" id="modelos" class="required" {{ modolectura ? "disabled='true'" : "" }}>
+                            <select id="modelo_id" name="modelo_id" id="modelos" class="required" {{ modolectura ? "disabled='true'" : "" }}>
                                 {% for modelo in modelos %}
-                                <option value="{{modelo.id}}" {{registro.modelo_id == modelo.id?" selected='selected' ":"" }}> {{ modelo.nombre}} </option>
+                                    <option value="{{modelo.id}}" {{registro.modelo_id == modelo.id?" selected='selected' ":"" }}> {{ modelo.nombre|title}} </option>
                                 {% else %}
                                     <option> -- </option>
                                 {% endfor %}                                
@@ -108,7 +72,7 @@
                     <div class="control-group">
                         <label class="control-label" for="km">Recorrido (Km) </label>
                         <div class="controls">
-                            <input type="text" name="km" class="number" value="{{ registro.km }}" {{ modolectura ? "disabled='true'" : "" }}/>
+                            <input type="text" name="km" class="digits" value="{{ registro.km }}" {{ modolectura ? "disabled='true'" : "" }}/>
                         </div>
                     </div>
                     <div class="control-group">
@@ -137,6 +101,7 @@
                 </div>
             </div>
         </fieldset>
+        {# Motor #}
         <fieldset>
             <legend>Motor</legend>
             <div class="row">
@@ -180,6 +145,7 @@
                 </div>
             </div>
         </fieldset>
+        {# Accesorios #}
         <fieldset>
             <legend>Accesorios</legend>
             <div class="row">
@@ -270,6 +236,7 @@
                 </div>
             </div>
         </fieldset>
+        {# Caraacteristicas #}
         <fieldset>
             <legend>Otras caracteristicas</legend>
             <div class="control-group">
@@ -279,6 +246,7 @@
                 </div>
             </div>
         </fieldset>
+        {# Precio #}
         <fieldset>
             <legend>Precio</legend>
             <div class="row">
@@ -286,7 +254,7 @@
                     <div class="control-group">
                         <label class="control-label" for="precio">Precio<sup>*</sup> </label>
                         <div class="controls">
-                            <input type="text" name="precio" class="required number" value="{{ registro.precio }}" {{ modolectura ? "disabled='true'" : "" }}/>
+                            <input type="text" name="precio" class="required digits" value="{{ registro.precio }}" {{ modolectura ? "disabled='true'" : "" }}/>
                         </div>
                     </div>
                 </div>
@@ -304,42 +272,41 @@
                 </div>
             </div>
         </fieldset>
+        {# Fotos #}
         <fieldset>
-            {{ dump(imagenes) }}
             <legend>Fotos</legend>
             <div class="control-group">
-                <label class="control-label" for="foto1">Foto Principal <sup>*</sup> </label>
+                {%for i in 0..4 %}
+                <label class="control-label" for="foto{{i}}">Foto {{i == 0 ? "Principal" : i+1 }} <sup>*</sup> </label>
                 <div class="controls">
-                    <input type="file" id="foto1" name="foto1" class="required" data-id="{{ imagenes[0].id }}" value="{{ imagenes[0].url_imagen }}" {{ modolectura ? "disabled='true'" : "" }}/>
+                    <input type="file" id="foto{{i+1}}" name="foto{{i+1}}" class="{{i == 0 ? "required" : "" }}" value="{{ imagenes[i].url_imagen }}" {{ modolectura ? "disabled='true'" : "" }}/>
+                {% if(get.accion == "editar") %}
+                    <div class="row">
+                        <div class="span5">
+                            {% if(imagenes[i].id!=null ) %}
+                            <img class="span1" src="{{constant('URL_SISTEMA') ~ 'img/carros/' ~ imagenes[i].url_imagen }}"/>
+                            <a href="#" class="btn btn-danger eliminar_foto btn-small" data-id="{{imagenes[i].id}}">Eliminar Foto</a>
+                            {% else %}
+                            <a href="#" class="btn btn-info agregar_foto btn-small">Agregar Foto</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                {% endif %}
                 </div>
-                <label class="control-label" for="foto2">Foto </label>
-                <div class="controls">
-                    <input type="file" name="foto2" {{ modolectura ? "disabled='true'" : "" }}/>
-                </div>
-                <label class="control-label" for="foto3">Foto </label>
-                <div class="controls">
-                    <input type="file" name="foto3" {{ modolectura ? "disabled='true'" : "" }}/>
-                </div>
-                <label class="control-label" for="foto4">Foto </label>
-                <div class="controls">
-                    <input type="file" name="foto4" {{ modolectura ? "disabled='true'" : "" }}/>
-                </div>
-                <label class="control-label" for="foto5">Foto </label>
-                <div class="controls">
-                    <input type="file" name="foto5" {{ modolectura ? "disabled='true'" : "" }}/>
-                </div>
+                {% endfor %}
             </div>
         </fieldset>
+        {# Accion #}
         <fieldset>
             <legend>Acción</legend>
             <div class="form-actions">
-                {% if accion != "ver" %}
+                {% if get.accion != "ver" and get.accion != "consultar" %}
                 <input class="btn btn-primary" type="submit" name="accion" value="{{get.accion|title}}"/>
+                {% else %}
+                <a class="btn btn-primary" href="{{constant('URL_SISTEMA')}}carro/editar/{{ registro.id }}">Editar</a>
                 {% endif %}
+                <a class="btn btn-info" href="{{constant("URL_SISTEMA")}}carro/listar">Volver al menú</a>
             </div>
         </fieldset>
     </form>
-    <div class="well">
-        <a class="btn btn-info" href="../usuarios">Volver al menú</a>
-    </div>
 {% endblock %} 

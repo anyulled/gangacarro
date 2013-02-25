@@ -40,8 +40,9 @@ class Auto extends db implements crud {
     private function ingresarAuto($data) {
         // <editor-fold defaultstate="collapsed" desc="Data">
         $datos = $data['auto'];
+        unset($datos['accion']);
         $datos['status'] = 0; //inactivo por defecto
-        $datos['comentario'] = htmlentities($data['auto']['caracteristicas'], ENT_QUOTES, "UTF-8");
+        $datos['comentario'] = htmlentities($data['auto']['comentario'], ENT_QUOTES, "UTF-8");
         $datos['usuario_id'] = $data['user']['id'];
         // </editor-fold>
 
@@ -91,15 +92,15 @@ class Auto extends db implements crud {
     }
 
     private function borrarAuto($id) {
-        $result = $this->db->delete("carro", array('id' => $id));
+        $result = $this->delete("carro", array('id' => $id));
         return $result;
     }
 
     private function actualizarAuto($data, $imagen, $id) {
         $datos = $data['auto'];
-        $datos['comentario'] = htmlentities($data['auto']['caracteristicas'], ENT_QUOTES, "UTF-8");
+        $datos['comentario'] = htmlentities($data['auto']['comentario'], ENT_QUOTES, "UTF-8");
         try {
-            $result = $this->db->update("carro", $datos, array("id" => $id));
+            $result = $this->update("carro", $datos, array("id" => $id));
             if (!$result['suceed']) {
                 throw new Exception("Error de actualizacion en BD.");
             }
@@ -154,12 +155,12 @@ class Auto extends db implements crud {
      * @return mixed el arreglo con los datos de la operacion 
      */
     function activarAuto($id, $status) {
-        $result = $this->db->update("carro", array('status' => $status), array('id' => $id));
+        $result = $this->update("carro", array('status' => $status), array('id' => $id));
         return $result;
     }
 
     function vendido($id, $status) {
-        $result = $this->db->update("carro", array('vendido' => $status), array('id' => $id));
+        $result = $this->update("carro", array('vendido' => $status), array('id' => $id));
         return $result;
     }
 
@@ -169,7 +170,7 @@ class Auto extends db implements crud {
      * @return mixed arreglo con los resultados de la operacion 
      */
     function eliminar_imagen($id_imagen) {
-        $result = $this->db->delete("imagenescarros", array("idImagenesCarros" => $id_imagen));
+        $result = $this->delete("imagen_carros", array("id" => $id_imagen));
         return $result;
     }
 
@@ -205,26 +206,26 @@ class Auto extends db implements crud {
      */
     private function insertar_imagen_bd($num, $nombre_imagen, $id) {
         $datosimagen['titulo'] = "GangaCarro.com";
-        $datosimagen['tipoimagen_idtipoimagen'] = ($num == 1) ? 1 : 2;
-        $datosimagen['urlImagen'] = $nombre_imagen;
+        $datosimagen['tipo_imagen_id'] = ($num == 1) ? 1 : 2;
+        $datosimagen['url_imagen'] = $nombre_imagen;
         $datosimagen['carro_id'] = $id;
 
-        $result = $this->db->insert("imagenescarros", $datosimagen);
+        $result = $this->insert("imagen_carros", $datosimagen);
         if (!$result['suceed']) {
             trigger_error("No se pudo guardar la imagen - Detalle:" . var_export($result, 1), E_USER_ERROR);
         }
     }
 
     function traer_marcas_nav() {
-        return $this->db->dame_query("select distinct nombre, urlImagen from marcas where id in(10, 11, 17, 18, 25, 29, 31, 42, 55)");
+        return $this->dame_query("select distinct nombre, url_imagen from marca where id in(10, 11, 17, 18, 25, 29, 31, 42, 55)");
     }
 
     function ultimas_publicaciones($limit = 4) {
-        return $this->db->dame_query(self::consulta_base . " where carro.status=1 order by rand() limit $limit");
+        return $this->dame_query(self::consulta_base . " where carro.status=1 order by rand() limit $limit");
     }
 
     function listar_tipo_vehiculos() {
-        return $this->db->dame_query("select * from tipo_vehiculo");
+        return $this->dame_query("select * from tipo_vehiculo");
     }
 
     public function actualizar($id, $data) {

@@ -83,7 +83,7 @@ If (isset($_POST['accion'])) {
             $data['auto'] = $_POST;
             $data['images'] = $_FILES;
             $data['user'] = $_SESSION['usuario'];
-            unset($_POST['accion']);
+            unset($data['accion']);
             $result = $auto->insertar($data);
             if ($result['suceed']) {
                 $variables['mensaje'] = "Registro creado con exito";
@@ -140,7 +140,7 @@ function llenar_selects($marca = null) {
     $direccion = $db->select("*", "direccion_vehiculo");
     $marcas = $db->select("*", "marca");
     if ($marca != null) {
-        $modelos = $db->select("*", "modelo", array("marca.id" => $marca));
+        $modelos = $db->select("*", "modelo", array("marca_id" => $marca));
     } else {
         $modelos = $db->select("*", "modelo");
     }

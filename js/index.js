@@ -114,7 +114,7 @@ function llenar_marcas_estados_tipos() {
             llenarCiudades($(this).val(), "#ciudad");
         });
     }
-    if ($("#estado").length > 0) {
+    if ($("#marca").length > 0) {
         llenarMarcas("#marca");
         $("#marca").change(function() {
             llenarModelos($(this).val(), "#modelo");
@@ -147,7 +147,7 @@ function eventosGlobales() {
 }
 function validar_formulario() {
     $("form").each(function() {
-        console.log("validando " + $(this).attr("name"));
+        //console.log("validando " + $(this).attr("name"));
         $(this).validate();
     });
 }
